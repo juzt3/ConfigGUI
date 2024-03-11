@@ -28,25 +28,45 @@ def h_types_callback(sender, app_data):
     if dpg.get_value(sender):  # Checkbox activado
         if "wood" in sender:
             h_types_selected.append('WOOD')
+            dpg.configure_item("tab_wood", show=True)
+            dpg.configure_item("tab_wood_mobs", show=True)
         elif "fiber" in sender:
             h_types_selected.append('FIBER')
+            dpg.configure_item("tab_fiber", show=True)
+            dpg.configure_item("tab_fiber_mobs", show=True)
         elif "ore" in sender:
             h_types_selected.append('ORE')
+            dpg.configure_item("tab_ore", show=True)
+            dpg.configure_item("tab_ore_mobs", show=True)
         elif "rock" in sender:
             h_types_selected.append('ROCK')
+            dpg.configure_item("tab_rock", show=True)
+            dpg.configure_item("tab_rock_mobs", show=True)
         elif "hide" in sender:
             h_types_selected.append('HIDE')
+            dpg.configure_item("tab_hide", show=True)
+            dpg.configure_item("tab_hide_mobs", show=True)
     else:  # Checkbox desactivado
         if "wood" in sender:
             h_types_selected.remove("WOOD")
+            dpg.configure_item("tab_wood", show=False)
+            dpg.configure_item("tab_wood_mobs", show=False)
         elif "fiber" in sender:
             h_types_selected.remove("FIBER")
+            dpg.configure_item("tab_fiber", show=False)
+            dpg.configure_item("tab_fiber_mobs", show=False)
         elif "ore" in sender:
             h_types_selected.remove("ORE")
+            dpg.configure_item("tab_ore", show=False)
+            dpg.configure_item("tab_ore_mobs", show=False)
         elif "rock" in sender:
             h_types_selected.remove("ROCK")
+            dpg.configure_item("tab_rock", show=False)
+            dpg.configure_item("tab_rock_mobs", show=False)
         elif "hide" in sender:
             h_types_selected.remove("HIDE")
+            dpg.configure_item("tab_hide", show=False)
+            dpg.configure_item("tab_hide_mobs", show=False)
 
 
 def h_tier_callback(sender, add_data):
@@ -180,7 +200,7 @@ with dpg.window(tag="main_window", no_close=True, no_resize=True, no_move=True):
                 dpg.add_text("Harvestables")
                 with dpg.group(horizontal=True):
                     dpg.add_text("Minimum Charges: ")
-                    dpg.add_input_int(tag="min_charges", min_clamped=True, max_clamped=True, max_value=30, default_value=settings['minCharges'])
+                    dpg.add_input_int(tag="min_charges", min_clamped=True, max_clamped=True, min_value=1, max_value=30, default_value=settings['minCharges'])
 
                 with dpg.group(horizontal=True):
                     dpg.add_checkbox(label="Wood", tag="wood_check", default_value=bool("WOOD" in settings['hTypes']), callback=h_types_callback)
@@ -190,7 +210,7 @@ with dpg.window(tag="main_window", no_close=True, no_resize=True, no_move=True):
                     dpg.add_checkbox(label="Fiber", tag="fiber_check", default_value=bool("FIBER" in settings['hTypes']), callback=h_types_callback)
 
                 with dpg.tab_bar(tag="tab_h_tiers"):
-                    with dpg.tab(tag="tab_wood", label="Wood"):
+                    with dpg.tab(tag="tab_wood", label="Wood", show=bool("WOOD" in settings['hTypes'])):
                         with dpg.group(horizontal=True):
                             dpg.add_checkbox(label="1", tag="wood_1_check", callback=h_tier_callback, default_value=bool(1 in wood_tiers))
                             dpg.add_checkbox(label="2", tag="wood_2_check", callback=h_tier_callback, default_value=bool(2 in wood_tiers))
@@ -218,7 +238,7 @@ with dpg.window(tag="main_window", no_close=True, no_resize=True, no_move=True):
                             dpg.add_checkbox(label="8.2", tag="wood_82_check", callback=h_tier_callback, default_value=bool(8.2 in wood_tiers))
                             dpg.add_checkbox(label="8.3", tag="wood_83_check", callback=h_tier_callback, default_value=bool(8.3 in wood_tiers))
 
-                    with dpg.tab(tag="tab_rock", label="Rock"):
+                    with dpg.tab(tag="tab_rock", label="Rock", show=bool("ROCK" in settings['hTypes'])):
                         with dpg.group(horizontal=True):
                             dpg.add_checkbox(label="1", tag="rock_1_check", callback=h_tier_callback, default_value=bool(1 in rock_tiers))
                             dpg.add_checkbox(label="2", tag="rock_2_check", callback=h_tier_callback, default_value=bool(2 in rock_tiers))
@@ -246,7 +266,7 @@ with dpg.window(tag="main_window", no_close=True, no_resize=True, no_move=True):
                             dpg.add_checkbox(label="8.2", tag="rock_82_check", callback=h_tier_callback, default_value=bool(8.2 in rock_tiers))
                             dpg.add_checkbox(label="8.3", tag="rock_83_check", callback=h_tier_callback, default_value=bool(8.3 in rock_tiers))
 
-                    with dpg.tab(tag="tab_ore", label="Ore"):
+                    with dpg.tab(tag="tab_ore", label="Ore", show=bool("ORE" in settings['hTypes'])):
                         with dpg.group(horizontal=True):
                             dpg.add_checkbox(label="1", tag="ore_1_check", callback=h_tier_callback, default_value=bool(1 in ore_tiers))
                             dpg.add_checkbox(label="2", tag="ore_2_check", callback=h_tier_callback, default_value=bool(2 in ore_tiers))
@@ -274,7 +294,7 @@ with dpg.window(tag="main_window", no_close=True, no_resize=True, no_move=True):
                             dpg.add_checkbox(label="8.2", tag="ore_82_check", callback=h_tier_callback, default_value=bool(8.2 in ore_tiers))
                             dpg.add_checkbox(label="8.3", tag="ore_83_check", callback=h_tier_callback, default_value=bool(8.3 in ore_tiers))
 
-                    with dpg.tab(tag="tab_hide", label="Hide"):
+                    with dpg.tab(tag="tab_hide", label="Hide", show=bool("HIDE" in settings['hTypes'])):
                         with dpg.group(horizontal=True):
                             dpg.add_checkbox(label="1", tag="hide_1_check", callback=h_tier_callback, default_value=bool(1 in hide_tiers))
                             dpg.add_checkbox(label="2", tag="hide_2_check", callback=h_tier_callback, default_value=bool(2 in hide_tiers))
@@ -302,7 +322,7 @@ with dpg.window(tag="main_window", no_close=True, no_resize=True, no_move=True):
                             dpg.add_checkbox(label="8.2", tag="hide_82_check", callback=h_tier_callback, default_value=bool(8.2 in hide_tiers))
                             dpg.add_checkbox(label="8.3", tag="hide_83_check", callback=h_tier_callback, default_value=bool(8.3 in hide_tiers))
 
-                    with dpg.tab(tag="tab_fiber", label="Fiber"):
+                    with dpg.tab(tag="tab_fiber", label="Fiber", show=bool("FIBER" in settings['hTypes'])):
                         with dpg.group(horizontal=True):
                             dpg.add_checkbox(label="1", tag="fiber_1_check", callback=h_tier_callback, default_value=bool(1 in fiber_tiers))
                             dpg.add_checkbox(label="2", tag="fiber_2_check", callback=h_tier_callback, default_value=bool(2 in fiber_tiers))
@@ -333,7 +353,7 @@ with dpg.window(tag="main_window", no_close=True, no_resize=True, no_move=True):
             with dpg.tab(tag="tab_mobs", label="Mobs"):
                 dpg.add_text("Mobs Tiers")
                 with dpg.tab_bar(tag="tab_mobs_tiers"):
-                    with dpg.tab(tag="tab_wood_mobs", label="Wood"):
+                    with dpg.tab(tag="tab_wood_mobs", label="Wood", show=bool("WOOD" in settings['hTypes'])):
                         with dpg.group(horizontal=True):
                             dpg.add_checkbox(label="1", tag="wood_mobs_1_check", callback=h_mobs_tier_callback,
                                              default_value=bool(1 in wood_mob_tiers))
@@ -384,7 +404,7 @@ with dpg.window(tag="main_window", no_close=True, no_resize=True, no_move=True):
                             dpg.add_checkbox(label="8.3", tag="wood_mobs_83_check", callback=h_mobs_tier_callback,
                                              default_value=bool(8.3 in wood_mob_tiers))
 
-                    with dpg.tab(tag="tab_rock_mobs", label="Rock"):
+                    with dpg.tab(tag="tab_rock_mobs", label="Rock", show=bool("ROCK" in settings['hTypes'])):
                         with dpg.group(horizontal=True):
                             dpg.add_checkbox(label="1", tag="rock_mobs_1_check", callback=h_mobs_tier_callback,
                                              default_value=bool(1 in rock_mob_tiers))
@@ -435,7 +455,7 @@ with dpg.window(tag="main_window", no_close=True, no_resize=True, no_move=True):
                             dpg.add_checkbox(label="8.3", tag="rock_mobs_83_check", callback=h_mobs_tier_callback,
                                              default_value=bool(8.3 in rock_mob_tiers))
 
-                    with dpg.tab(tag="tab_ore_mobs", label="Ore"):
+                    with dpg.tab(tag="tab_ore_mobs", label="Ore", show=bool("ORE" in settings['hTypes'])):
                         with dpg.group(horizontal=True):
                             dpg.add_checkbox(label="1", tag="ore_mobs_1_check", callback=h_mobs_tier_callback,
                                              default_value=bool(1 in ore_mob_tiers))
@@ -486,7 +506,7 @@ with dpg.window(tag="main_window", no_close=True, no_resize=True, no_move=True):
                             dpg.add_checkbox(label="8.3", tag="ore_mobs_83_check", callback=h_mobs_tier_callback,
                                              default_value=bool(8.3 in ore_mob_tiers))
 
-                    with dpg.tab(tag="tab_hide_mobs", label="Hide"):
+                    with dpg.tab(tag="tab_hide_mobs", label="Hide", show=bool("HIDE" in settings['hTypes'])):
                         with dpg.group(horizontal=True):
                             dpg.add_checkbox(label="1", tag="hide_mobs_1_check", callback=h_mobs_tier_callback,
                                              default_value=bool(1 in hide_mob_tiers))
@@ -537,7 +557,7 @@ with dpg.window(tag="main_window", no_close=True, no_resize=True, no_move=True):
                             dpg.add_checkbox(label="8.3", tag="hide_mobs_83_check", callback=h_mobs_tier_callback,
                                              default_value=bool(8.3 in hide_mob_tiers))
 
-                    with dpg.tab(tag="tab_fiber_mobs", label="Fiber"):
+                    with dpg.tab(tag="tab_fiber_mobs", label="Fiber", show=bool("FIBER" in settings['hTypes'])):
                         with dpg.group(horizontal=True):
                             dpg.add_checkbox(label="1", tag="fiber_mobs_1_check", callback=h_mobs_tier_callback,
                                              default_value=bool(1 in fiber_mob_tiers))
